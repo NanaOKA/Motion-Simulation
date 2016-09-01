@@ -31,7 +31,7 @@ if strcmp(wave_type,'regular') == 1
     L = 40.0;            % wavelength  [m] Must satisfy deep water condition
     A = 0.5;             % wave amplitude [m] Must satisfy steepness condition
     H = 2*A;             % wave height [m] Must satisfy steepness condition
-    dir_deg = 50;        % wave direction [rad]
+    dir_deg = 0;         % wave direction [rad]
     phi = 0;             % wave phase [rad]
     
     deep_water_condition(t_depth, L);
@@ -49,6 +49,7 @@ time_end = 140;            % End time [s], length of simulation
 t = time_start:dt:time_end;
 
 for time_wave = time_start:dt:time_end
+    %% CHECK TYPE OF SURFACE TO GENERATE
     if strcmp(wave_type,'regular') == 1
         % Create regular wave 
         H_wave = A;
@@ -60,4 +61,14 @@ for time_wave = time_start:dt:time_end
         
     end
     
+    %% CREATE FIGURE FOR WAVE AND OBJECT
+    sea_surface = figure(1);
+    m = mesh(X, Y, Z);
+  
+    %view([90,0])                       % default is -37.5, 30
+    
+    config_plot; 
+    set(m,'FaceLighting','gouraud','FaceColor','texturemap','AmbientStrength',0.5,'EdgeColor','none');
+    axis([0 t_length 0 t_width t_depth-(H+4) t_depth + (H+5)]);
+    pause(0.05)
 end
