@@ -40,3 +40,10 @@ elseif strcmp(wave_type,'complex') == 1
 else
     disp('Wrong input for wave_type')
 end
+
+%% SIMULATION
+dt = 0.1;                  % Time step [s], smaller = more fluid simulation
+time_sample_rate = 1/dt;   % Sampling rate [Hz]
+time_start = 0;            % Start time 
+time_end = 140;             % End time [s], length of simulation
+t = time_start:dt:time_end;
