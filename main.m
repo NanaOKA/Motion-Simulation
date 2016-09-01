@@ -20,3 +20,6 @@ t_length = 30.0;    % Tank length [m]  default = 100 X axis
 t_width  = 30.0;    % Tank width [m]  default = 100 Y axis
 t_depth  = 30.0;    % Tank length [m] default = 100 Z axis 
 t_grid   = 0.05;    % Size of grid tank will be divided into [m]
+
+[X, Y] = create_world(t_length, t_width, t_grid);
+
