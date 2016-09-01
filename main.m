@@ -51,6 +51,7 @@ t = time_start:dt:time_end;
 for time_wave = time_start:dt:time_end
     if strcmp(wave_type,'regular') == 1
         % Create regular wave 
+        H_wave = A;
         [f,w,k,c,st,dir_rad,Z,kx,ky,W,Phi] = create_wave(H_wave,L,T,dir_deg,time_wave,X,Y,phi,t_depth);
     
     elseif strcmp(wave_type,'complex') == 1
