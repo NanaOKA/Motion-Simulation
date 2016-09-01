@@ -26,15 +26,11 @@ t_grid   = 0.05;    % Size of grid tank will be divided into [m]
 %% WAVE
 wave_type='regular';
 
-if strcmp(wave_type,'regular') == 1
+if wave_type=='regular'
     T = 9.0;             % wave period [s]
     L = 40.0;            % wavelength  [m] Must satisfy deep water condition
     A = 0.5;             % wave amplitude [m] Must satisfy steepness condition
     H = 2*A;             % wave height [m] Must satisfy steepness condition
     dir_deg = 50;        % wave direction [rad]
     phi = 0;             % wave phase [rad]
-elseif strcmp(wave_type,'complex') == 1
-    
-else
-    disp('Wrong input for wave_type')
 end
