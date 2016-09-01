@@ -33,6 +33,8 @@ if strcmp(wave_type,'regular') == 1
     H = 2*A;             % wave height [m] Must satisfy steepness condition
     dir_deg = 50;        % wave direction [rad]
     phi = 0;             % wave phase [rad]
+    
+    deep_water_condition(t_depth, L);
 elseif strcmp(wave_type,'complex') == 1
     
 else
