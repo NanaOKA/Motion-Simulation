@@ -24,18 +24,23 @@ t_grid   = 0.05;    % Size of grid tank will be divided into [m]
 [X, Y] = create_world(t_length, t_width, t_grid);
 
 %% WAVE
-wave_type='regular';
+wave_type='complex';
 
 if strcmp(wave_type,'regular') == 1
     T = 9.0;             % wave period [s]
     L = 40.0;            % wavelength  [m] Must satisfy deep water condition
-    A = 0.5;             % wave amplitude [m] Must satisfy steepness condition
+    A = 1.5;             % wave amplitude [m] Must satisfy steepness condition
     H = 2*A;             % wave height [m] Must satisfy steepness condition
-    dir_deg = 0;         % wave direction [rad]
+    dir_deg = 40;        % wave direction [rad]
     phi = 0;             % wave phase [rad]
     
     deep_water_condition(t_depth, L);
+    
 elseif strcmp(wave_type,'complex') == 1
+    spectrum='pierson'; %( Options are ....)
+    Hs = 4;             % Significant wave height
+    Tp = 8;             % Peak period
+    dir_deg = 10;        % wave direction [rad]
     
 else
     disp('Wrong input for wave_type')
@@ -45,7 +50,7 @@ end
 dt = 0.1;                  % Time step [s], smaller = more fluid simulation
 time_sample_rate = 1/dt;   % Sampling rate [Hz]
 time_start = 0;            % Start time 
-time_end = 140;            % End time [s], length of simulation
+time_end = 10;            % End time [s], length of simulation
 t = time_start:dt:time_end;
 
 for time_wave = time_start:dt:time_end
@@ -56,6 +61,23 @@ for time_wave = time_start:dt:time_end
         [f,w,k,c,st,dir_rad,Z,kx,ky,W,Phi] = create_wave(H_wave,L,T,dir_deg,time_wave,X,Y,phi,t_depth);
     
     elseif strcmp(wave_type,'complex') == 1
+        % Creat complex surface from spectrum;
+        % create_spectrum()
+        w = 0:0.01:5;
+        
+        wx = w .* cosd(dir_deg);
+        wy = w .* sind(dir_deg);
+        
+        a = 5*(pi^4);
+        b = (Hs^2)/(Tp^4);
+        c = (w.^-5);
+        d = (-20*(pi^4))/(Tp^4);
+        e = (w.^-5);
+        e = (sqrt((wx.^2)+(wy.^2)).^-5);
+
+        Sw = a.*b.*c.*exp(d.*e);
+
+        plot(w,Sw);
     
     else
         
