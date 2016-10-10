@@ -25,13 +25,13 @@ t_grid   = 0.05;    % Size of grid tank will be divided into [m]
 
 %% WAVE
 wave_type='complex';
+dir_deg = 80;        % wave direction [rad]
 
 if strcmp(wave_type,'regular') == 1
     T = 9.0;             % wave period [s]
     L = 40.0;            % wavelength  [m] Must satisfy deep water condition
     A = 1.5;             % wave amplitude [m] Must satisfy steepness condition
     H = 2*A;             % wave height [m] Must satisfy steepness condition
-    dir_deg = 40;        % wave direction [rad]
     phi = 0;             % wave phase [rad]
     
     deep_water_condition(t_depth, L);
@@ -40,7 +40,7 @@ elseif strcmp(wave_type,'complex') == 1
     spectrum='pierson'; %( Options are ....)
     Hs = 4;             % Significant wave height
     Tp = 8;             % Peak period
-    dir_deg = 10;        % wave direction [rad]
+
     
 else
     disp('Wrong input for wave_type')
@@ -72,9 +72,8 @@ for time_wave = time_start:dt:time_end
         b = (Hs^2)/(Tp^4);
         c = (w.^-5);
         d = (-20*(pi^4))/(Tp^4);
-        e = (w.^-5);
         e = (sqrt((wx.^2)+(wy.^2)).^-5);
-
+        
         Sw = a.*b.*c.*exp(d.*e);
 
         plot(w,Sw);
