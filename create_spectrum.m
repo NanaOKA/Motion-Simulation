@@ -1,4 +1,4 @@
-function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L] = create_spectrum(w,Hs,Tp,Wp,dir_deg)
+function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L,T,k] = create_spectrum(w,Hs,Tp,Wp,dir_deg)
 % This function takes the following inputs
 % Hs,       significant wave height[m]
 % Tp,       peak/modal wave period[s]
@@ -9,6 +9,7 @@ function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L] = create_spectr
 
 g = 9.80665;         % Acceleration due to gravity [m/s^2]
 L = 2*pi*g*(w.^-2);  % Wavelength [L]
+T = 2*pi./(w);       % Wave period[s]
 k = (2*pi)./L;       % Wave number [rad/m]
 
 
