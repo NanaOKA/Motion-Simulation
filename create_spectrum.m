@@ -1,4 +1,4 @@
-function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson] = create_spectrum(w,Hs,Tp,Wp,dir_deg)
+function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L] = create_spectrum(w,Hs,Tp,Wp,dir_deg)
 % This function takes the following inputs
 % Hs,       significant wave height[m]
 % Tp,       peak/modal wave period[s]
@@ -7,13 +7,15 @@ function [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson] = create_spectrum
 % w,        Frequency [rad/s]
 % f,        Frequency [Hz]
 
-g = 9.80665; % Acceleration due to gravity in m/s^2
+g = 9.80665;         % Acceleration due to gravity [m/s^2]
+L = 2*pi*g*(w.^-2);  % Wavelength [L]
+k = (2*pi)./L;       % Wave number [rad/m]
+
 
 %% PIERSON-MOSKOWITZ SPECTRUM
 % See http://www.codecogs.com/library/engineering/fluid_mechanics/waves/spectra/pierson_moskowitz.php
 wx = w .* cosd(dir_deg);
 wy = w .* sind(dir_deg);
-f = w./(2*pi); % Frequency [Hz]
 
 aw = 5*(pi^4);
 bw = (Hs^2)/(Tp^4);
