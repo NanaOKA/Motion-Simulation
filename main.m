@@ -24,7 +24,7 @@ t_grid   = 0.05;    % Size of grid tank will be divided into [m]
 [X, Y] = create_world(t_length, t_width, t_grid);
 
 %% WAVE
-wave_type='complex';
+wave_type='complex'; % Options are complex and regular
 dir_deg = 80;        % wave direction [rad]
 
 if strcmp(wave_type,'regular') == 1
@@ -40,6 +40,8 @@ elseif strcmp(wave_type,'complex') == 1
     spectrum='pierson'; %( Options are ....)
     Hs = 4;             % Significant wave height
     Tp = 8;             % Peak period
+    % Creat complex surface from spectrum;
+    [Sw,w]=create_spectrum(Hs,Tp,dir_deg);
 
     
 else
@@ -61,22 +63,7 @@ for time_wave = time_start:dt:time_end
         [f,w,k,c,st,dir_rad,Z,kx,ky,W,Phi] = create_wave(H_wave,L,T,dir_deg,time_wave,X,Y,phi,t_depth);
     
     elseif strcmp(wave_type,'complex') == 1
-        % Creat complex surface from spectrum;
-        % create_spectrum()
-        w = 0:0.01:5;
         
-        wx = w .* cosd(dir_deg);
-        wy = w .* sind(dir_deg);
-        
-        a = 5*(pi^4);
-        b = (Hs^2)/(Tp^4);
-        c = (w.^-5);
-        d = (-20*(pi^4))/(Tp^4);
-        e = (sqrt((wx.^2)+(wy.^2)).^-5);
-        
-        Sw = a.*b.*c.*exp(d.*e);
-
-        plot(w,Sw);
     
     else
         
