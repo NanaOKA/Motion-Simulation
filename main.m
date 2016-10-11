@@ -38,10 +38,10 @@ if strcmp(wave_type,'regular') == 1
     
 elseif strcmp(wave_type,'complex') == 1
     spectrum='pierson'; %( Options are ....)
-    Hs = 4;             % Significant wave height
-    Tp = 8;             % Peak period
+    Hs = 0.83;             % Significant wave height [m]
+    Tp = 8.37;             % Peak period [s]
     % Creat complex surface from spectrum;
-    [Sw,w]=create_spectrum(Hs,Tp,dir_deg);
+    [Sw,w,Sf,f]=create_spectrum(Hs,Tp,dir_deg);
 
     
 else
