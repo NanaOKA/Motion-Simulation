@@ -71,7 +71,7 @@ elseif strcmp(wave_type,'complex') == 1
     Wp = (2*pi)/Tp;        % Peak/modal frequency [rad/s]
     
     % Creat complex surface from spectrum;
-    [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L,T,k]=create_spectrum(w,Hs,Tp,Wp,dir_deg);
+    [Sw_Hs_Tp_pierson,w,Sf_Hs_Tp_pierson,f,Sw_Hs_pierson,L,T,k]=create_spectrum(w,Hs,Tp,Wp,Fp,dir_deg);
 
     
 else
