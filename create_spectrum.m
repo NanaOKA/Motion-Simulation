@@ -48,12 +48,24 @@ Sw_Hs_pierson = a1.*b1.*exp(c1*d1.^2);
 %S1_pierson same as Sw_pierson with Tp~4.2, Hs~0.83
 
 %% BRETSCHNEIDER SPECTRUM (ITTC Standard)
+% See https://ocw.mit.edu/courses/mechanical-engineering/2-22-design-principles-for-ocean-vehicles-13-42-spring-2005/readings/r8_wavespectra.pdf
 B1 = 1.25/4;
 B2 = (Wp^4)./(w.^5);
 B3 = -1.25;
 B4 = (Wp./w).^4;
 
 Sw_Hs_Tp_bret = B1.*B2.*Hs.*exp(B3.*B4);
+
+Tz=6;
+
+% See http://www.ultramarine.com/hdesk/document/papers/sea_spectra_simplified.pdf
+% INPUTS FOR WAVE HEIGHTS IN FEET
+B1_ = 4200*(Hs^2);
+B2_ = (Tz^4)*(w.^5);
+B3_ = -1050;
+B4_ = (Tz^4).*(w.^4);
+Sw_Hs_Tz_bret = B1_./(B2_.*exp(B3_./B4_));
+
 %% SPECTRAL MOMENTS
 m0 = trapz((f.^0).*Sf_Hs_Tp_pierson);
 m1 = trapz((f.^1).*Sf_Hs_Tp_pierson);
@@ -61,8 +73,8 @@ m2 = trapz((f.^2).*Sf_Hs_Tp_pierson);
 m4 = trapz((f.^4).*Sf_Hs_Tp_pierson);
 
 Calc_Hs = 0.4*sqrt(m0);   % Significant wave height [m]
-Calc_Ta = m0/m1;          % Average wave period [s] - Mean centroid wave
-Calc_Tz = sqrt(m0/m2);    % Mean zero-crossing wave period
+Calc_Ta = m0/m1;          % Average wave period [s] = Mean centroid wave
+Calc_Tz = sqrt(m0/m2);    % Mean zero-crossing wave period = Significant wave period, also known as Ts
 Calc_T_p_m = sqrt(m2/m4); % Mean period between maxima 
 
 figure;
@@ -93,6 +105,14 @@ xlabel('Frequency, \omega [rad/s]');
 ylabel('Power Spectral Density [m^2s/2 \pi rad]');
 title('Bretschneider Spectrum(wrt rad/s) taking Hs and Tp as inputs')
 legend('BRET (Hs, Tp)')
+%hold on;
+
+figure;
+plot(w,Sw_Hs_Tz_bret);
+xlabel('Frequency, \omega [rad/s]');
+ylabel('Height Double Spectrum [ft^2s]');
+title('Bretschneider Spectrum(wrt rad/s) taking Hs and Tz as inputs')
+legend('BRET (Hs, Tz)')
 %hold on;
 end
 
