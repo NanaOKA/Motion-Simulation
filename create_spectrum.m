@@ -80,7 +80,7 @@ cf = (f.^-5);
 df = (-20/(16*(Tp^4)));
 ef = (f.^-4);
 
-Sf_Hs_Tp_pierson = af.*bf.*cf.*exp(df.*ef);
+Sf_Hs_Tp_pierson = 2*pi*af.*bf.*cf.*exp(df.*ef);
 % 
 % %See https://ocw.mit.edu/courses/mechanical-engineering/2-22-design-principles-for-ocean-vehicles-13-42-spring-2005/readings/r8_wavespectra.pdf
 a1 = 0.0081;
@@ -105,7 +105,7 @@ B2f = (Fp^4)./(f.^5);
 B3f = -1.25;
 B4f = (Fp./f).^4;
 
-Sf_Hs_Tp_bret = B1f.*B2f.*(Hs).*exp(B3f.*B4f);
+Sf_Hs_Tp_bret = 2*pi*B1f.*B2f.*(Hs).*exp(B3f.*B4f);
 
 
 % % See http://www.ultramarine.com/hdesk/document/papers/sea_spectra_simplified.pdf
@@ -123,10 +123,10 @@ m1_pier = trapz((f.^1).*Sf_Hs_Tp_pierson);
 m2_pier = trapz((f.^2).*Sf_Hs_Tp_pierson);
 m4_pier = trapz((f.^4).*Sf_Hs_Tp_pierson);
 
-m0_bret = trapz((f.^0).*Sf_Hs_Tp_bret*2*pi);
-m1_bret = trapz((f.^1).*Sf_Hs_Tp_bret*2*pi);
-m2_bret = trapz((f.^2).*Sf_Hs_Tp_bret*2*pi);
-m4_bret = trapz((f.^4).*Sf_Hs_Tp_bret*2*pi);
+m0_bret = trapz((f.^0).*Sf_Hs_Tp_bret);
+m1_bret = trapz((f.^1).*Sf_Hs_Tp_bret);
+m2_bret = trapz((f.^2).*Sf_Hs_Tp_bret);
+m4_bret = trapz((f.^4).*Sf_Hs_Tp_bret);
 
 m0_actual = trapz((f_actual.^0).*Sf_actual);
 m1_actual = trapz((f_actual.^1).*Sf_actual);
@@ -141,8 +141,8 @@ Calc_Tp_pier = 1/f(I_pier)     % Peak period
 Calc_Tp_bret = 1/f(I_bret)
 Calc_Tp_actual = 1/f_actual(I_actual)
  
-Calc_Hs_pier = 0.4*sqrt(m0_pier)   % Significant wave height [m]
-Calc_Hs_bret = 0.4*sqrt(m0_bret/(2*pi))
+Calc_Hs_pier = 0.4*sqrt(m0_pier/(2*pi))   % Significant wave height [m]
+Calc_Hs_bret = 0.4*sqrt(m0_bret/(2*pi))   % Division by 2 is to do with conversion from w to f
 Calc_Hs_actual = 0.4*sqrt(m0_actual)
 
 Calc_Ta_pier = m0_pier/m1_pier          % Average wave period [s] = Mean centroid wave
@@ -211,13 +211,14 @@ legend('Pierson-Moskowitz','Bretschneider','PM (only Hs)');
 
 
 figure;
-plot(f,(Sf_Hs_Tp_pierson.*2*pi),'r',f,(Sf_Hs_Tp_bret.*2*pi),'b');
+plot(f,(Sf_Hs_Tp_pierson),'r',f,(Sf_Hs_Tp_bret),'b');
 xlabel('Frequency, f [Hz]');
 ylabel('Power Spectral Density [m^2/Hz]');
 legend('Pierson-Moskowitz','Bretschneider');
 hold on
 
-plot(f_actual,(Sf_actual));
+plot(f_actual,Sf_actual,'--');
+
 end
 
 
